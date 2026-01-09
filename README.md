@@ -58,6 +58,5 @@ pip install numpy scipy pandas pulp matplotlib seaborn
 - **Economic Trade-off:** Requires a 506 Million TND "safety premium" over the status quo.
 - **Robustness:** Boughrara remains the optimal choice in 5 out of 6 weight sensitivity scenarios, proving it is not highly dependent on specific parameter variations (±20%).
 
-## 📜 License
 ## 📜 License & Contact
 This project was prepared for academic purposes at Tunis Business School. For inquiries regarding the data or methodology, please reach out to [moontahaghabry@gmail.com](mailto:moontahaghabry@gmail.com) or [khouloudbenyounes06@gmail.com](mailto:khouloudbenyounes06@gmail.com)
