@@ -60,4 +60,4 @@ pip install numpy scipy pandas pulp matplotlib seaborn
 
 ## 📜 License
 ## 📜 License & Contact
-This project was prepared for academic purposes at Tunis Business School. For inquiries regarding the data or methodology, please reach out to [moontahaghabry@gmail.com](mailto:moontahaghabry@gmail.com).
+This project was prepared for academic purposes at Tunis Business School. For inquiries regarding the data or methodology, please reach out to [moontahaghabry@gmail.com](mailto:moontahaghabry@gmail.com) or [khouloudbenyounes06@gmail.com](mailto:khouloudbenyounes06@gmail.com)
