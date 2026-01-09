@@ -1,0 +1,369 @@
+\documentclass[a4paper,11pt]{report}
+
+% ================= BASIC =================
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper, left=2cm, right=2cm, top=2.5cm, bottom=2.5cm]{geometry}
+% Fix for fancyhdr warnings
+\setlength{\headheight}{15pt}
+\addtolength{\topmargin}{-3pt}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{csquotes}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{xcolor}  % For white text
+
+% Times New Roman Setup
+\usepackage{newtxtext,newtxmath}
+
+% Set Times New Roman 11pt as default font for body text
+\makeatletter
+\renewcommand{\normalsize}{%
+  \@setfontsize\normalsize{11}{12}%
+  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+  \belowdisplayskip \abovedisplayskip
+  \let\@listi\@listI
+}
+\makeatother
+\normalsize  % Apply the font size
+
+% ================= TOC =================
+\usepackage{tocloft}
+
+% Make "Contents" white/invisible and prevent it from appearing in header
+\renewcommand{\contentsname}{\textcolor{white}{Contents}}
+\makeatletter
+% Redefine ToC to not set markright and use completely empty page style
+\renewcommand{\tableofcontents}{%
+  \if@twocolumn
+    \@restonecoltrue\onecolumn
+  \else
+    \@restonecolfalse
+  \fi
+  % Create a truly empty page style for ToC (no header, no line, no footer text)
+  \fancypagestyle{tocpage}{%
+    \fancyhf{}  % Clear all headers and footers
+    \fancyfoot[C]{\thepage}  % Keep only page number in footer
+    \renewcommand{\headrulewidth}{0pt}  % Remove header line completely
+  }
+  \thispagestyle{tocpage}  % Apply empty style to ToC page
+  \chapter*{\contentsname}%
+  % Don't set markright to prevent "Contents" in header
+  \@starttoc{toc}%
+  \if@restonecol\twocolumn\fi
+}
+\makeatother
+
+% Lower ToC much more - make it less negative or positive to add space above
+\setlength{\cftbeforetoctitleskip}{0cm}  % No negative space, pushes list down significantly
+\setlength{\cftaftertoctitleskip}{0.5cm}  % Normal spacing after invisible title
+
+% Table of contents formatting
+% Indentation for TOC entries
+\cftsetindents{chapter}{0em}{2.5em}
+\cftsetindents{section}{2.5em}{2.5em}
+\cftsetindents{subsection}{5em}{3em}
+
+% Dotted leaders
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+
+% Font styling: bold chapters only
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+\renewcommand{\cftsubsecfont}{\normalfont}
+\renewcommand{\cftsubsecpagefont}{\normalfont}
+
+% vertical space between entries
+\setlength{\cftbeforechapskip}{2.5pt}
+\setlength{\cftbeforesecskip}{2pt}
+\setlength{\cftbeforesubsecskip}{1.5pt}
+
+% smaller font in TOC to avoid overflow
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\tableofcontents}{\@starttoc{toc}}{\small\@starttoc{toc}}{}{}
+\makeatother
+
+% ================= TITLES =================
+\usepackage{titlesec}
+
+\titleformat{\chapter}[block]
+  {\normalfont\fontsize{16}{18}\bfseries\centering}
+  {}
+  {0pt}
+  {\MakeUppercase}
+
+\titlespacing*{\chapter}
+  {0pt}{-18pt}{14pt}
+
+\makeatletter
+\def\@makeschapterhead#1{%
+  \vspace*{-18pt}%
+  {\centering
+    \normalfont\fontsize{16}{18}\bfseries\MakeUppercase{#1}\par
+    \vspace{14pt}%
+  }
+}
+\makeatother
+
+\titleformat{\section}
+  {\fontsize{14}{16}\bfseries}
+  {\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\fontsize{13}{15}\bfseries}
+  {\thesubsection}{1em}{}
+
+\titlespacing*{\section}
+  {0pt}    % left margin
+  {4pt}    % space before
+  {2pt}    % space after
+
+\titlespacing*{\subsection}
+  {0pt}
+  {1pt}
+  {2pt}
+
+
+% ================= HEADERS =================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\itshape\nouppercase{\rightmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{0pt}  % No indent at start of paragraphs
+\setlength{\parskip}{6pt}
+
+% Update only \rightmark on \chapter
+\renewcommand{\chaptermark}[1]{\markright{#1}}
+\renewcommand{\sectionmark}[1]{}            % ignore sections
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyhead[R]{\itshape\nouppercase{\rightmark}}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0.4pt}
+}
+
+% Figure/table formatting
+\usepackage{caption}
+\captionsetup{
+    font = {small,bf},
+    justification = centering,
+    labelsep = period,
+    skip = 0pt
+}
+
+% Alternating row color --> to be reconsidered
+\usepackage[table]{xcolor}
+\rowcolors{2}{gray!10}{white}
+\usepackage{newfloat}
+
+\DeclareFloatingEnvironment[
+    fileext=loq,
+    listname={List of Equations},
+    name=Equation,
+    placement=htbp,
+]{equationbox}
+\captionsetup[equationbox]{name=Equation} 
+\captionsetup[equationbox]{skip=-6pt}
+
+
+% ================= LINKS =================
+\usepackage[pdfusetitle,hidelinks]{hyperref}
+
+% ================= CHAPTER LOGIC =================
+\newcommand{\mychapter}[1]{%
+  \refstepcounter{chapter}%
+  \chapter*{#1}%
+  \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}%
+  \markright{#1}%
+}
+
+% Custom command to add lists to ToC
+\newcommand{\addlisttotoc}[2]{%
+  \phantomsection
+  \addcontentsline{toc}{chapter}{#1}
+  #2
+}
+
+\usepackage{listings}
+\lstset{
+  backgroundcolor=\color{gray!10},
+  basicstyle=\ttfamily\small,
+  frame=single,
+  rulecolor=\color{black},
+  breaklines=true,
+  captionpos=b,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  tabsize=2,
+}
+
+\usepackage[T1]{fontenc}
+% REMOVED lmodern to stay strictly on newtxtext (Times)
+
+% ================= BIB =================
+\usepackage[style=apa, backend=biber]{biblatex}
+\addbibresource{references.bib}
+
+\begin{document}
+\onehalfspacing
+
+% ==================== FRONT MATTER ====================
+\input{title page}
+\pagenumbering{roman}
+\setcounter{page}{1}  % Start roman numbering from i
+\cleardoublepage
+
+% Abstract - page i
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{ABSTRACT}
+
+\begingroup % Start a local group
+    \setstretch{1.5} % Force 1.5 line spacing
+    \setlength{\parskip}{18pt} % Very large gap between paragraphs to see change
+    
+    % This forces a size change regardless of preamble settings
+    \large 
+    
+    % If \large isn't enough, use this specific override:
+    % \fontsize{14}{17}\selectfont 
+
+    \input{abstract}
+    \par % Ensure the last paragraph applies the spacing before closing the group
+\endgroup
+
+\newpage
+
+% ==================== AUTOMATIC LISTS ====================
+
+\tableofcontents
+\newpage
+
+% List of Tables - page ii, added to ToC
+%\setcounter{page}{2}  % Set to ii (roman)
+\addlisttotoc{LIST OF TABLES}{\listoftables}
+\cleardoublepage
+
+
+\addlisttotoc{LIST OF FIGURES}{\listoffigures}
+\cleardoublepage
+
+\addlisttotoc{LIST OF EQUATIONS}{\listofequationbox}
+\cleardoublepage
+
+% ==================== MAIN CONTENT STARTS ============
+\cleardoublepage
+
+% Switch to arabic numbering starting from Introduction
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\refstepcounter{chapter}  % Increments chapter counter (essential for correct section numbering)
+\phantomsection  % Essential for correct hyperref links
+\chapter*{INTRODUCTION}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}INTRODUCTION}
+\markright{INTRODUCTION}   % Keeps header correct
+\thispagestyle{fancy}      % Ensures your fancy header (with chapter name) appears
+\input{1.Introduction}
+
+\cleardoublepage
+\refstepcounter{chapter}  % Increments chapter counter (essential for correct section numbering)
+\phantomsection
+\chapter*{LITERATURE REVIEW}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}LITERATURE REVIEW}
+\markright{LITERATURE REVIEW}
+\thispagestyle{fancy}
+\input{2.Literature_Review}
+
+\cleardoublepage
+\refstepcounter{chapter}  % Increments chapter counter (essential for correct section numbering)
+\phantomsection
+\chapter*{METHODOLOGY}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}METHODOLOGY}
+\markright{METHODOLOGY}
+\thispagestyle{fancy}
+\input{3.Methodology}
+
+\cleardoublepage
+\refstepcounter{chapter}  % Increments chapter counter (essential for correct section numbering)
+\phantomsection
+\chapter*{DATA DESCRIPTION}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}DATA DESCRIPTION}
+\markright{DATA DESCRIPTION}
+\thispagestyle{fancy}
+\input{4.DataDescription}
+
+\cleardoublepage
+\refstepcounter{chapter}  % Increments chapter counter (essential for correct section numbering)
+\phantomsection
+\chapter*{RESULTS AND ANALYSIS}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}RESULTS AND ANALYSIS}
+\markright{RESULTS AND ANALYSIS}
+\thispagestyle{fancy}
+\input{5.Results and Analysis.tex}
+
+\cleardoublepage
+\refstepcounter{chapter}
+\phantomsection
+\chapter*{DISCUSSION}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}DISCUSSION}
+\markright{DISCUSSION}
+\thispagestyle{fancy}
+\input{6.Discussion.tex}
+
+\cleardoublepage
+
+
+\refstepcounter{chapter}
+\phantomsection
+\chapter*{CONCLUSION}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}CONCLUSION}
+\markright{CONCLUSION}
+\thispagestyle{fancy}
+\input{7.Conclusion}
+
+\cleardoublepage
+
+% ==================== REFERENCES ====================
+\refstepcounter{chapter}
+\phantomsection
+\chapter*{REFERENCES}
+\markright{REFERENCES}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}REFERENCES}
+\thispagestyle{fancy}
+\printbibliography[heading=none]
+
+\cleardoublepage
+
+% ==================== APPENDICES ====================
+\refstepcounter{chapter}
+\phantomsection
+\chapter*{APPENDICES}
+\thispagestyle{fancy}
+\markright{APPENDICES}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}APPENDICES}
+\input{8.Appendices}
+
+\newpage
+\cleardoublepage
+\end{document}

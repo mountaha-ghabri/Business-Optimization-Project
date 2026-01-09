@@ -1,0 +1,195 @@
+\label{sec:method}
+\section{Model Type}
+This study uses a Multi-Objective Goal Programming (MOGP) model with preemptive priority weighting and binary decision variables to select alternative locations for the Gabès phosphate facility. The choice reflects the problem’s hierarchical and non-compensatory objectives, where public health and regulatory compliance must be met before economic efficiency. Weighted-sum methods require trade-offs between incommensurable objectives, and Pareto approaches can allow unacceptable compromises. MOGP enforces the priority order directly. The problem also requires satisficing: feasible alternatives must meet all critical thresholds rather than optimizing a single measure. Multi-attribute methods like AHP or TOPSIS assume compensatory trade-offs, whereas MOGP minimizes deviations from aspiration levels to ensure essential criteria are satisfied. It also provides transparent, interpretable performance measures for each objective, making MOGP the most suitable method for this context.
+
+\section{Model Formulation}
+
+\subsection{Indices}
+\[
+i \in I = \{1, 2, \dots, 6\}
+\]
+where $i$ indexes the final set of six feasible candidate sites obtained after stochastic feasibility screening. These sites correspond to Sidi Boubaker (Gafsa), Boughrara (Médenine), Gabès (status quo), Batten Ghazal (Sidi Bouzid), Bouaguereb (Sfax), and Rjim Maatoug (Kébili). The initial candidate pool consisted of 24 sites, representing the lowest-density municipality in each governorate; infeasible sites were eliminated through Monte Carlo simulation as described in Section~\ref{sec:uncertainty}.
+
+\subsection{Decision Variables}
+Primary binary variable:
+\[
+x_i =
+\begin{cases}
+    1 & \text{if site } i \text{ is selected}, \\
+    0 & \text{otherwise}
+\end{cases}
+\]
+Deviation variables:
+\begin{align*} 
+d_1^+ &\ge 0 \quad \text{(over-achievement of zero population exposure)} \\
+d_2^+ &\ge 0 \quad \text{(budget overrun)} \\
+d_3^- &\ge 0 \quad \text{(water shortfall)} \\
+d_4^- &\ge 0 \quad \text{(environmental quality shortfall)}
+\end{align*}
+
+\subsection{Parameters}
+\textbf{Site-specific:}
+\begin{itemize}[nosep]
+  \item $P_i$: population within 3 km radius (persons)
+  \item $C_i$: capital cost (million TND)
+  \item $o_i$: unit operating cost (TND/ton; constant at 150)
+  \item $d_i$: road distance from Gafsa mining basin (km)
+  \item $W_i$: annual water supply (Mm³/yr)
+  \item $E_i$: environmental quality score (0–10, the higher the better)
+\end{itemize}
+\textbf{System-wide:}
+\begin{itemize} [nosep]
+  \item $Q = 500{,}000$ t/yr (annual production)
+  \item $\tau = 0.20$ TND/t-km (transport cost)
+  \item $\alpha$: 7.5: present value annuity factor for 10-year horizon at 6\% discount rate
+  \item $B = 750$ M TND (budget)
+  \item $W^{req} = 2.0$ Mm³/yr (water requirement)
+  \item $E^{\min} = 6.0$ (environmental threshold)
+\end{itemize}
+\textbf{Total cost function:} 
+\begin{minipage}[t]{0.5\linewidth}
+\vspace{-0.3\baselineskip}
+    \begin{equationbox}[H]
+    \begin{equation}
+    TC_i = C_i +  \alpha \times Q \times (o_i + \tau \times d_i)
+    \end{equation}
+    \label{eq:objective1}
+    \caption{Total Cost Function}
+    \end{equationbox}
+\end{minipage} \\
+where operating and transport costs are converted from TND to Million TND (divided by 1,000,000).
+\subsection{Objective Function}
+\vspace{-0.6cm}
+\begin{minipage}[t]{\linewidth}
+        \vspace{-1\baselineskip}
+    \begin{equationbox}[H]
+    \begin{equation}
+    \min Z = w_1 d_1^+ + w_2 d_3^- + w_3 d_2^+ + w_4 d_4^-
+    \end{equation}
+    \label{eq:objective}
+    \caption{Objective Function}
+    \end{equationbox}
+\end{minipage} \\
+with lexicographic ordering $w_1 \gg w_2 > w_3 > w_4$. Base-case weights $(100, 20, 10, 5)$ reflect order-of-magnitude priority differences (detailed in Section~\ref{sec:weights}).
+
+\subsection{Constraints}
+
+\begin{enumerate}
+  \item \textbf{Site selection: }Ensures that exactly one candidate site is selected for facility relocation. The model assumes a single, indivisible relocation decision rather than distributed or phased development.\\
+    \begin{minipage}[t]{\linewidth}
+    \vspace{-1\baselineskip}
+    \begin{equationbox}[H]
+      \begin{equation}
+        \sum_i x_i = 1
+      \end{equation}
+      \caption{Single-site selection constraint}
+    \end{equationbox}
+    \end{minipage}
+  \item \textbf{Safety goal:} The target population exposure is zero (ideal scenario with no residential population near the facility). Any actual exposure becomes a positive deviation $d_1^+$, which is heavily penalized in the objective function. This formulation treats population exposure as a continuous harm rather than a threshold effect.\\
+        \begin{minipage}[t]{\linewidth}
+        \vspace{-1\baselineskip} 
+        \begin{equationbox}[H] \begin{equation} \sum_i P_i x_i = d_1^{+} \end{equation} \caption{Population exposure (safety) goal} \end{equationbox} \end{minipage}
+  \item \textbf{Budget goal:}
+  The total project cost should not exceed the budget constraint $B$. If the selected site's total cost exceeds the budget, the overage is captured by the positive deviation $d_2^+$. This formulation allows the model to select over-budget sites if they offer substantial safety or technical advantages, but with an explicit penalty: \\
+    \begin{minipage}[t]{\linewidth}
+        \vspace{-1\baselineskip} 
+        \begin{equationbox}[H] \begin{equation}
+        \sum_i TC_i x_i - d_2^{+} = B
+      \end{equation}
+      \caption{Budget constraint}
+    \end{equationbox}
+    \end{minipage}
+  \item \textbf{Water availability:}
+  The selected site must provide adequate water supply to meet production requirements ($W^{\text{req}}$). Phosphoric acid production requires approximately 4 m³ of water per ton of output for chemical reactions, cooling, and waste processing. Sites with insufficient natural water availability require supplementary sources (e.g., desalination), implicitly captured in capital costs. Any shortfall below $W^{\text{req}}$ is penalized via the negative deviation $d_3^-$: \\
+    \begin{minipage}[t]{\linewidth}
+        \vspace{-1.5\baselineskip}
+    \begin{equationbox}[H]
+      \begin{equation}
+        \sum_i W_i x_i + d_3^{-} \geq W^{\text{req}}
+      \end{equation}
+      \caption{Water availability constraint}
+    \end{equationbox}
+    \end{minipage}
+    
+  \item \textbf{Environmental quality:}
+  The selected site must meet or exceed a minimum environmental quality threshold ($E^{\min}$), reflecting regulatory standards established by Tunisia's Environmental Protection Law (1992)\footnote{\url{https://pce.tn/wp-content/uploads/2022/08/Loi-92-72-du-28-Janvier-1992.pdf}}. The environmental score $E_i$ is a composite index incorporating baseline air quality, proximity to protected ecosystems, soil contamination risk, and topographical factors affecting pollutant dispersion. Any underachievement of the threshold is penalized via $d_4^-$:\\
+    \begin{minipage}[t]{\linewidth}
+    \vspace{-1\baselineskip}
+    \begin{equationbox}[H]
+      \begin{equation}
+      \sum_{i \in I} E_i x_i + d_4^- \ge E^{\min}
+      \end{equation}
+      \caption{Environment Score constraint}
+    \end{equationbox}
+    \end{minipage}
+  \item \textbf{Variable domains}: The site selection variables are binary, making this a Mixed Integer Linear Program (MILP). All deviation variables are continuous and non-negative.\\
+    \begin{minipage}[t]{\linewidth}
+    \vspace{-1.2\baselineskip}
+    \begin{equationbox}[H]
+      \begin{equation}
+        x_i \in \{0,1\}, \quad d_j^{+}, d_j^{-} \ge 0
+      \end{equation}
+      \caption{Binary decision and non-negativity constraints}
+    \end{equationbox}
+    \end{minipage}
+\end{enumerate}
+
+
+\section{Parameter Estimation and Uncertainty}
+\label{sec:uncertainty}
+
+Site-specific parameters are estimated from public and engineering sources. Uncertainty is addressed via Monte Carlo simulation (1{,}000 iterations) over an initial set of 24 candidate sites, using a log-normal distribution for population exposure and normal distributions for all other parameters.
+
+Monte Carlo simulation is used exclusively for feasibility screening, eliminating sites that fail minimum water, environmental, or cost plausibility conditions. This yields six feasible sites. Median parameter values for these sites are then used as deterministic inputs in the goal programming model, ensuring a robust solution for a one-time, safety-dominated relocation decision.
+
+\section{Assumptions}
+
+The model rests on the following assumptions:
+\begin{enumerate} 
+  \item Only a finite set of pre-identified locations is considered; continuous location choices are ignored.
+  \item Deterministic parameters: Costs, population, water, and production requirements are treated as known constants.
+  \item Capital, operating, and transport costs are linear; no economies/diseconomies of scale are modeled.
+  \item The model assumes a one-time relocation without future expansion.
+  \item Population within a 3 km radius as a proxy for health risk exposure.
+  \item Each site can access sufficient water; costs are included in capital estimates.
+  \item A simplified metric aggregates environmental indicators for regulatory screening.
+  \item Political acceptability, land acquisition negotiations, and community opposition are excluded from the optimization model, requiring separate policy analysis.
+
+\end{enumerate}
+
+These assumptions promote transparency and align with the model's strategic decision-support role.
+
+\section{Solution Procedure}
+
+The mixed-integer linear program is implemented in Python using the PuLP modeling framework with the CBC solver. The solution procedure consists of:
+\begin{enumerate}
+    \item Monte Carlo simulation for parameter uncertainty and feasibility screening.
+    \item Extraction of median parameter values for surviving sites. 
+    \item Base-case goal programming optimization.
+    \item Sensitivity and scenario analysis.
+    \item Diagnostic visualization.
+\end{enumerate}
+Given the small final set, solutions are obtained instantaneously with guaranteed global optimality.
+
+\section{Rationale for Weight Selection}
+\label{sec:weights}
+
+\begin{itemize} [noitemsep]
+
+\item \textbf{Safety ($w_1 = 100$).} Safety is the highest priority, reflecting the non-compensatory principle that public health risks cannot be offset by economic gain. This aligns with Article 38 of the 2014 Tunisian Constitution\footnote{\url{https://www.constituteproject.org/constitution/Tunisia_2014.pdf}}, guaranteeing the right to health, and Article 45, mandating pollution reduction.
+
+\item \textbf{Water availability ($w_2 = 20$).} As a binding feasibility constraint in arid southern Tunisia, water security is documented as critical by the World Bank\footnote{World Bank (2018), \textit{Beyond Scarcity: Water Security in the Middle East and North Africa}. \url{https://openknowledge.worldbank.org/entities/publication/62f75eb4-5488-50dc-9bb5-b54b12a32ac0}}. While the Water Code (Law 75-16) prioritizes essential use, this weight ensures technical viability while remaining subordinate to safety.
+
+\item \textbf{Economic cost ($w_3 = 10$).} Cost is assigned a moderate weight to acknowledge fiscal constraints and budget targets without compromising safety or technical feasibility.
+
+\item \textbf{Environmental quality ($w_4 = 5$).} Modeled as a threshold-based criterion, this factor follows Law 91-1992\footnote{\url{https://faolex.fao.org/docs/pdf/tun2106.pdf}} standards. Once regulatory compliance is met, further improvements are considered secondary to safety and cost drivers.
+
+\end{itemize}
+
+The 100:20:10:5 ratio enforces a strict lexicographic hierarchy. Sensitivity analysis confirms that the optimal solution remains robust across alternative weighting structures.
+
+\section{Methodological Scope and Limitations}
+
+While this model serves as a stylized decision-support tool, it establishes a transparent framework for industrial relocation by operationalizing constitutional priorities through a lexicographic structure. By integrating goal programming with probabilistic estimation, the study provides a simplified but rigorous mechanism for quantifying the trade-offs between safety, cost, and resource availability. 
+
+However, the model’s real-world applicability is constrained by its deterministic assumptions and the indicative nature of the underlying data. In practice, industrial relocation requires high-fidelity field data, dynamic multi-period planning, and non-linear cost modeling that go beyond the scope of this static optimization. Consequently, this study should be viewed as a methodological template for structured decision-making rather than a final implementation plan.

@@ -1,0 +1,31 @@
+\label{sec:lit}
+
+\section{Facility Location and Obnoxious Facilities}
+Facility location problems form a foundational domain in operations research, traditionally prioritizing cost and distance minimization \parencite{weber1909}. A critical subset addresses ``obnoxious'' facilities, those generating pollution, health hazards, or environmental degradation, requiring objectives that maximize separation from populations \parencite{erkut1989}. Early hazardous waste siting models employed maximin approaches to maximize minimum distance from residential areas \parencite{church1978}. Industrial relocation in chemical processing frequently arises from legacy pollution, necessitating systematic evaluation balancing economic viability, public safety, environmental quality, and resource constraints.
+
+\section{Multi-Objective Optimization Approaches}
+Industrial siting inherently involves conflicting objectives. Contemporary approaches favor Pareto frontier methods, particularly evolutionary algorithms like NSGA-II, which generate diverse non-dominated solution sets \parencite{ehrgott2005}. Recent applications include chemical plant layout optimization \parencite{lin2022} and facility relocation with life-cycle environmental assessment \parencite{ma2024}.
+
+However, Pareto methods assume continuous tradeability between objectives, implying economic gains can compensate for increased hazard exposure. This compensatory logic contradicts regulatory frameworks establishing non-negotiable safety thresholds. Weighted-sum scalarization suffers similar limitations, imposing fixed exchange rates between incommensurable objectives.
+
+\section{Goal Programming for Non-Compensatory Decisions}
+Goal Programming (GP), formulated by \parencite{charnes1961}, minimizes deviations from aspirational targets rather than optimizing objectives directly. Through preemptive (lexicographic) weighting, GP enforces hierarchical prioritization where higher-priority objectives dominate before lower-priority criteria influence solutions \parencite{romero1991}. This satisficing approach ensures non-compensatory decision structures, public health cannot be traded against economic efficiency.
+
+GP's deviation variables quantify precisely how alternatives fall short of ideal targets, providing transparency essential for policy decisions. Applications include industrial waste disposal \parencite{zografos1989} and semi-obnoxious infrastructure location \parencite{zare2025}. The method proves particularly effective for discrete problems with rigid objective hierarchies where policy alignment and interpretability supersede exhaustive Pareto enumeration \parencite{oksuz2024}.
+
+\section{Uncertainty Quantification in Facility Location}
+Real-world facility location faces substantial parameter uncertainty in costs, resource availability, and environmental assessments \parencite{snyder2006}. While stochastic programming addresses uncertainty through scenario-based formulations, these approaches require analytical tractability often incompatible with discrete multi-objective models.
+
+Monte Carlo simulation offers a complementary approach, propagating input uncertainty through deterministic models without convexity assumptions \parencite{raychaudhuri2008}. For GP applications, simulation solves the deterministic model across parameter realizations sampled from specified distributions, generating probability distributions of optimal selections and quantifying decision robustness. Recent applications demonstrate effectiveness under uncertainty \parencite{chang2021}. This integration preserves GP's non-compensatory structure while addressing parameter variability, a critical gap in existing literature.
+
+\section{The Gabès Case and Resource Constraints}
+The Gabès phosphate complex (operated by Groupe Chimique Tunisien since the 1970s) exemplifies industrial-environmental crises necessitating systematic relocation. Daily phosphogypsum discharges (~14,000 tons) containing heavy metals and radioactive materials have created a marine dead zone \parencite{elzrelli2018}. \parencite{robert2024} documents sustained civil opposition, demonstrating that politically expedient solutions without systematic optimization prove untenable.
+
+\parencite{abdenneji2023} provide epidemiological evidence linking atmospheric pollution to respiratory disease severity (SO₂: $p=0.019$; PM: $p=0.023$), validating population exposure minimization as a paramount, non-compensatory objective and supporting residential proximity as a quantifiable health risk proxy.
+
+Water scarcity introduces binding constraints absent from facility location models developed for industrialized settings. Phosphoric acid production requires ~4 m³ water per ton output \parencite{becker1989}. The World Bank (2018) documents severe water stress across southern Tunisia, where withdrawal exceeds renewable supply. Tunisia's Water Code (Law 75-16, 1975) prioritizes human consumption over industrial uses, rendering water availability a primary feasibility constraint. This distinction is critical for arid-region facility siting yet remains underexplored in existing literature.
+
+\section{Research Contribution}
+This study addresses three simultaneous gaps: \textbf{(1)} operationalizing non-compensatory public health priorities mandated by constitutional frameworks (Tunisia's 2014 Constitution, Article 38) into optimization models; \textbf{(2)} treating water scarcity as a binding feasibility constraint in resource-limited contexts; \textbf{(3)} systematically quantifying decision robustness under parameter uncertainty in multi-objective siting problems.
+
+The methodological contribution integrates goal programming with Monte Carlo simulation for the Gabès facility relocation, preserving GP's lexicographic priority structure while generating probabilistic performance metrics. This provides decision-makers with both a modal site recommendation and uncertainty quantification, a framework applicable to industrial siting in water-scarce developing regions where health protections cannot be compromised for economic efficiency.

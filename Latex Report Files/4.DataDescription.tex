@@ -1,0 +1,132 @@
+\label{sec:data}
+\section{Candidate Sites}
+Candidate sites are derived through a two-stage screening process. An initial pool of 24 locations was constructed by selecting the lowest-density municipality in each Tunisian governorate. These sites were then subjected to Monte Carlo-based feasibility screening (Section~\ref{sec:uncertainty}) to eliminate locations that systematically violate minimum water availability, environmental, or cost plausibility requirements.
+
+This process yielded a final set of six feasible candidate sites, including the current Gabès location retained as a status quo benchmark. Table~\ref{tab:sites_context} summarises the final sites and their geographic context.
+
+\begin{table}[h]
+\centering
+\caption{Final Candidate Sites and Geographic Context}
+\label{tab:sites_context}
+\footnotesize
+\begin{tabular}{llll}
+\toprule
+\textbf{Site} & \textbf{Governorate} & \textbf{Type} & \textbf{Rationale} \\
+\midrule
+S1: Sidi Boubaker & Gafsa & Peri-urban interior & Mining proximity \\
+S2: Boughrara & Medenine & Remote coastal & Pristine environment \\
+S3: Gabès & Gabès & Urban coastal & Status quo baseline \\
+S4: Batten Ghazal & Sidi Bouzid & Rural interior & Balanced profile \\
+S5: Bouaguereb & Sfax & Industrial coastal & Existing infrastructure \\
+S6: Rjim Maatoug & Kebili & Remote interior & Deep south option \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Parameter Definitions and Sources}
+\subsection{Site-Specific Parameters}
+\begin{itemize}
+  \item \textbf{Population Exposure ($P_i$):} Measures residents within a 3~km hazard radius \parencite{carter1995offshore}, derived from 2014 INS census data via spatial buffer analysis. Values reflect the gradient from high-density urban coastal zones (Gabès) to remote interior sites.
+  
+  \item \textbf{Capital Cost ($C_i$):} Relocation and infrastructure investment estimated via factorial methods \parencite{seider2016product}. Costs scale international phosphate benchmarks \parencite{efma2000phosphoric} by site-specific multipliers (1.2$\times$--2.8$\times$) accounting for greenfield development and logistical remoteness.
+  
+  \item \textbf{Transport Distance ($d_i$):} Routing distance from the Gafsa mining basin. Gabès utilizes existing SNCFT rail infrastructure; all relocation alternatives rely on road transport network routing (OpenStreetMap) to account for grade limitations and heavy vehicle accessibility for bulk rock transport.
+  
+  \item \textbf{Water Availability ($W_i$):} Sustainable annual supply based on regional hydrogeological assessments. Capacities range from high-volume coastal reverse osmosis to restricted arid-zone aquifers, modeled with a $\pm$20\% variance to reflect extraction uncertainty.
+  
+  \item \textbf{Environmental Quality ($E_i$):} A composite index (0--10) aggregating air quality, ecosystem sensitivity, and soil integrity via AHP multi-criteria scoring \parencite{saaty1980ahp}. It benchmarks sites from severely degraded industrial zones to pristine coastal environments.
+\end{itemize}
+
+\subsection{System-Wide Parameters}
+Table~\ref{tab:system_params} reports parameters common to all sites.
+
+\begin{table}[h]
+\centering
+\caption{System Parameters}
+\label{tab:system_params}
+\footnotesize
+\begin{tabular}{lcl}
+\toprule
+\textbf{Parameter} & \textbf{Value} & \textbf{Source/Justification} \\
+\midrule
+Production ($Q$)                  & 500,000 t/yr          & GCT historical output \\
+Operating cost ($o_i$)            & 150 TND/t             & Industry benchmark (constant) \\
+Transport cost ($\tau$)           & 0.20 TND/t-km         & Bulk mineral freight rates \\
+Present value factor ($\alpha$)   & 7.5                   & 10-year horizon, 6\% discount \\
+Budget ($B$)                      & 750 M TND             & Fiscal constraint \\
+Water requirement ($W^{\text{req}}$) & 2.0 Mm$^3$/yr      & 4 m$^3$/t standard \\
+Environmental threshold ($E^{\min}$) & 6.0                & Regulatory minimum \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Data Preparation and Final Estimates}
+Monte Carlo simulation (1{,}000 iterations per site) is used to generate parameter distributions and perform feasibility screening. Correlations between key variables (e.g., population $\leftrightarrow$ environment at $-0.60$) are incorporated using Cholesky decomposition, and distributions are truncated to physically plausible ranges. 
+
+For the six feasible sites, median values are extracted to form a deterministic dataset for the base-case goal programming model. The resulting parameter set is reported in Table~\ref{tab:final_data}. Total lifecycle cost ($TC_i$) is calculated as:
+
+\begin{equationbox}
+\begin{equation}
+    TC_i = C_i + \alpha \times Q \times (o_i + \tau \times d_i)
+\end{equation}
+\label{eq:total_cost}
+\caption{Total lifecycle cost}
+\end{equationbox}
+
+where the variable cost component captures the present value of 10 years of operating and transport costs:
+
+\begin{equationbox}
+\begin{equation}
+    \text{Variable Cost}_i = \alpha \times Q \times (o_i + \tau \times d_i)
+\end{equation}
+\label{eq:variable_cost}
+\caption{Variable Cost}
+\end{equationbox}
+
+with parameters $\alpha = 7.5$ (present value factor), $Q = 500$ kt/yr (annual production), $o_i = 150$ TND/t (unit operating cost), and $\tau = 0.20$ TND/t-km (unit transport cost).
+
+\begin{table}[h]
+\centering
+\caption{Final Median Parameter Set with Cost Breakdown}
+\label{tab:final_data}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccccc}
+\toprule
+\textbf{Site} & \textbf{Pop.} & \textbf{Capital} & \textbf{Distance} & \textbf{Water} & \textbf{Env.} & \textbf{Variable Cost} & \textbf{Total Cost} \\
+ & $P_i$ & $C_i$ & $d_i$ & $W_i$ & $E_i$ & (M TND) & $TC_i$ (M TND) \\
+ & (persons) & (M TND) & (km) & (Mm³/yr) & (0--10) & & \\
+\midrule
+Sidi Boubaker     & 1,100 & 428 & 45  & 0.75 & 5.7 & 596.3 & 1,024.3 \\
+Boughrara         & 280   & 518 & 212 & 2.88 & 8.7 & 721.5 & 1,239.5 \\
+Gabès             & 8,500 & 0   & 227\textsuperscript{†} & 2.88 & 2.1 & 733.1 & 733.1 \\
+Batten Ghazal     & 580   & 388 & 78  & 1.60 & 7.6 & 621.0 & 1,009.0 \\
+Bouaguereb        & 2,600 & 308 & 64  & 2.88 & 5.7 & 610.5 & 918.5 \\
+Rjim Maatoug      & 280   & 578 & 225 & 0.75 & 7.6 & 731.3 & 1,309.3 \\
+\bottomrule
+\multicolumn{8}{l}{\textsuperscript{†}Railway distance via CFT line; all others road transport from Gafsa mines.}
+\end{tabular}
+\end{table}
+
+\subsection{Cost Structure Interpretation}
+The lifecycle cost analysis highlights a significant financial barrier to relocation, with all alternatives requiring a 25--79\% premium over the status quo.
+
+\begin{itemize} \item \textbf{Status Quo Baseline (Gabès):} At 733~M TND, Gabès is the least expensive option due to zero CAPEX, despite the longest transport route (227~km). This establishes a minimum 185~M TND “relocation barrier."
+
+\item \textbf{Infrastructure-Led Efficiency (Bouaguereb):} The most competitive alternative (919~M TND). It minimizes the relocation premium to 25\% by leveraging existing industrial infrastructure (308~M CAPEX) and short 64~km highway routing. It represents the fiscally rational relocation choice.
+
+\item \textbf{Balanced Interior Profile (Batten Ghazal):} A middle-ground option (1,009~M TND; 38\% premium). It offers a superior cost-safety-environment balance, providing low exposure (580 persons) and high environmental quality (7.6) for a 276~M TND increase over baseline.
+
+\item \textbf{Capital vs. Proximity (Sidi Boubaker):} Despite the shortest haul (45~km) and lowest OPEX, high greenfield CAPEX (428~M) pushes total costs to 1,024~M TND (40\% premium). This proves that mine adjacency cannot offset high infrastructure costs.
+
+\item \textbf{Remote Safety Extremes:} Boughrara (1,240~M TND) and Rjim Maatoug (1,309~M TND) incur the highest premiums (69--79\%). While achieving maximum safety (280 exposure), they are penalized by extreme capital requirements and long-haul transport.
+\end{itemize}
+
+In summary, \textbf{Bouaguereb is the least disruptive relocation option} (185~M TND premium), though it maintains higher population exposure. For decision-makers prioritizing health, \textbf{Batten Ghazal} offers a balanced 38\% cost premium, while \textbf{Boughrara} provides maximum safety at a 69\% premium.
+
+\section{Data Limitations and Validation}
+Due to significant data constraints and a lack of public cost estimates, model parameters are indicative rather than absolute. The analysis prioritizes structured comparison under uncertainty over precise engineering prediction, utilizing 2014 census data and regional environmental records.
+
+Logistics distances represent actual routing, using the CFT railway for Gabès and road networks for alternatives, validated via OpenStreetMap and SNCFT infrastructure maps. A uniform transport cost is applied for consistency, though this likely underestimates the reliability and economies of scale inherent to rail. Future refinements to mode-specific costs could reveal additional savings for the Gabès baseline or justify new rail development for high-volume remote sites.
+
+To ensure robustness, Monte Carlo simulations filter infeasible outcomes while median values provide a transparent baseline. International benchmarking and sensitivity analysis confirm that site rankings remain stable across parameter fluctuations. Bouaguereb consistently emerges as the most cost-competitive relocation choice, while Gabès maintains a persistent cost advantage. The significant cost gaps (185--576~M TND) ensure that these fundamental hierarchies and strategic conclusions remain valid even under varying assumptions.

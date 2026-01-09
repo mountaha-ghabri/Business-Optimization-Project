@@ -1,0 +1,144 @@
+\label{sec:res}
+\section{Optimal Solution and Comparison with Status Quo}
+Under base-case lexicographic weights $(w_1, w_2, w_3, w_4) = (100, 20, 10, 5)$, the goal programming model selects \textbf{Boughrara} as the optimal relocation site. The results highlight the non-compensatory priority of public safety, quantify key trade-offs, and demonstrate robustness to weight, parameter, and stochastic variations.
+
+Boughrara minimizes the weighted objective ($Z = 28{,}000$) relative to the Gabès status quo ($Z = 850{,}020$), but at a substantial economic cost. Its lifecycle cost of 1,240~M TND represents a 506~M TND premium (69\%) over Gabès’ 733~M TND baseline. Table~\ref{tab:optimal_solution} summarizes the main performance differences.
+
+\begin{table}[h]
+\centering
+\caption{Optimal Solution (Boughrara) vs. Gabès Status Quo}
+\label{tab:optimal_solution}
+\footnotesize
+\begin{tabular}{lcc}
+\toprule
+\textbf{Criterion}                  & \textbf{Boughrara} & \textbf{Gabès} \\
+\midrule
+Population Exposure ($P_i$, persons) & 280                & 8,500          \\
+Total Cost ($TC_i$, M TND)           & 1,240              & 733            \\
+Water Availability ($W_i$, Mm³/yr)   & 2.88               & 2.88           \\
+Environmental Quality ($E_i$, 0--10) & 8.7                & 2.1            \\
+\midrule
+Objective Value ($Z$)                & 28,000             & 850,020        \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Boughrara delivers a \textbf{97\% reduction in population exposure}, the dominant goal, while fully satisfying water and environmental constraints. The 506~M TND cost increase, equivalent to a 490~M TND deviation from the 750~M TND budget target, is accepted because the safety benefit ($w_1 \times 8{,}220 = 822{,}000$) overwhelmingly exceeds the financial penalty ($w_3 \times 490 = 4{,}900$). This illustrates the core trade-off: achieving world-class safety and environmental performance requires a cost premium equal to 65\% of the budget constraint.
+
+
+\section{Overall Site Ranking and Trade-offs}
+Table~\ref{tab:site_comparison} ranks the six feasible candidates by their objective values.
+
+\begin{table}[h]
+\centering
+\caption{Site Ranking by Objective Value}
+\label{tab:site_comparison}
+\footnotesize
+\begin{tabular}{lcccr}
+\toprule
+\textbf{Rank} & \textbf{Site}              & $P_i$ (persons) & $TC_i$ (M TND) & $Z$       \\
+\midrule
+1             & Boughrara                  & 280             & 1,240          & 28,000    \\
+2             & Rjim Maatoug               & 280             & 1,309          & 28,000    \\
+3             & Batten Ghazal              & 580             & 1,009          & 58,900    \\
+4             & Sidi Boubaker              & 1,100           & 1,024          & 110,240   \\
+5             & Bouaguereb                 & 2,600           & 919            & 260,190   \\
+6             & Gabès (Status Quo)         & 8,500           & 733            & 850,000   \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+Analysis of the ranking reveals several key trade-offs and strategic insights:
+
+\begin{itemize} [noitemsep]
+
+\item \textbf{Safety Dominance:} Rankings are primarily driven by population exposure. Boughrara and Rjim Maatoug achieve identical minimal exposure (280 persons), proving that maximum safety is achievable at multiple locations.
+
+\item \textbf{Cost as Tie-breaker:} Among the safest alternatives, cost becomes the differentiator. Boughrara outperforms Rjim Maatoug by 69~M TND (5\% savings), though both require 506--576~M TND premiums (69--79\%) over Gabès.
+
+\item \textbf{Economic Undervaluation:} Bouaguereb (rank 5) is the most affordable relocation option (919~M TND; 25\% premium) but ranks low because the lexicographic model prioritizes safety. Shifting weights toward fiscal efficiency () would make it the preferred choice.
+
+\item \textbf{Compromise Options:} Batten Ghazal (rank 3) and Sidi Boubaker (rank 4) offer 87--93\% exposure reductions for 38--40\% cost premiums. These serve as viable middle grounds between Gabès’ high risk and Boughrara’s high cost.
+
+\item \textbf{Water Constraints:} Scarcity acts as a hard filter, eliminating several interior candidates. Surviving sites like Boughrara and Bouaguereb (desalination) or Batten Ghazal (aquifers) demonstrate superior hydrogeological resilience.
+
+\item \textbf{Status Quo Domination:} Gabès is mathematically dominated on safety (30$\times$ worse) and environment (4.1$\times$ worse). While it offers the lowest cost, its 185--576~M TND relocation premium poses significant fiscal feasibility challenges for Tunisia.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{fig4_raw_deviations_comparison}
+\caption{Raw deviations by site across the four primary objectives}
+\label{fig:deviations}
+\end{figure}
+
+Figure~\ref{fig:deviations} illustrates objective trade-offs and the core policy dilemma. Gabès meets budget and water targets but exhibits a massive population exposure deviation (8,500 persons) and the worst environmental shortfall (3.9 points). Conversely, Boughrara and Rjim Maatoug minimize exposure to near-zero but incur the highest budget overruns (490--559~M TND), confirming the high opportunity cost of prioritizing safety over fiscal constraints.
+
+Boughrara and Rjim Maatoug define the safety-priority extreme, while Batten Ghazal and Sidi Boubaker occupy intermediate positions with moderate deviations across all categories. Although Gabès excels in fiscal adherence, its extreme safety and ecological failures suggest it is a poor holistic choice, effectively dominated by more balanced profiles like Bouaguereb.
+
+\begin{figure}[H]
+\centering
+    \includegraphics[width=0.4\textwidth]{plot3_radar_comparison.png}
+    \caption{Radar Performance Comparison: Boughrara vs. Gabès Status Quo}
+    \label{fig:radar_comparison}
+\end{figure}
+
+The radar plot in Figure~\ref{fig:radar_comparison} highlights the profound environmental and safety gains provided by Boughrara, while starkly visualizing the cost penalty. While relocation necessitates substantial fiscal sacrifice (506~M TND premium), this trade-off delivers transformational improvements: 97\% exposure reduction (8,500 → 280 persons) and restoration of pristine environmental conditions (2.1 → 8.7 index). The question for Tunisian policymakers becomes whether these non-monetary benefits justify a 69\% increase in lifecycle costs.
+18
+\section{Robustness and Sensitivity Analysis}
+
+\subsection{Weight Sensitivity}
+Sensitivity scenarios (Table~\ref{tab:sensitivity_weights}) demonstrate that site selection is highly sensitive to priority assumptions, with distinct strategic regimes emerging.
+
+\begin{table}[H]
+\centering
+\caption{Weight Sensitivity Analysis Scenarios}
+\label{tab:sensitivity_weights}
+\footnotesize
+\begin{tabular}{lcc}
+\toprule
+\textbf{Scenario}            & \textbf{Weights ($w_1,w_2,w_3,w_4$)} & \textbf{Optimal Site} \\
+\midrule
+Base (Lexicographic)         & 100, 20, 10, 5                      & Boughrara             \\
+Equal Weights                & 25, 25, 25, 25                      & Boughrara             \\
+Fiscal Austerity (Cost)      & 10, 10, 100, 5                      & Bouaguereb            \\
+Strict Safety                & 1000, 20, 10, 5                     & Boughrara/Rjim Maatoug \\
+Water Priority               & 100, 200, 10, 5                     & Boughrara             \\
+Environmental Focus          & 100, 20, 10, 50                     & Boughrara             \\
+\bottomrule
+\end{tabular}
+\end{table}
+\vspace{-0.5cm}
+\noindent
+\begin{itemize} [nosep]
+  \item \textbf{Safety-dominant regime (5 of 6 scenarios):} Boughrara remains optimal whenever population exposure receives dominant weight ($w_1 \geq 4w_3$). This includes base lexicographic priorities, equal weighting, and scenarios emphasizing water or environment. Under extreme safety prioritization (1000×), Boughrara and Rjim Maatoug tie, as both achieve minimal exposure (280 persons).
+  
+  \item \textbf{Cost-dominant regime (fiscal austerity):} When cost weight exceeds safety weight by 10×, \textbf{Bouaguereb} emerges as optimal. This represents the "economically rational" solution, accepting 9× higher exposure (2,600 vs. 280 persons) to save 321~M TND (26\% cost reduction) relative to Boughrara. Notably, even under fiscal dominance, the model does not revert to Gabès, confirming that the status quo is unacceptable even to cost-obsessed decision frameworks.
+  
+  \item \textbf{Regime transition threshold:} The critical threshold lies near $w_3/w_1 \approx 5$. Above this ratio, cost considerations override safety; below it, population protection dominates. This threshold provides a quantitative benchmark for assessing whether Tunisia's stated policy priorities genuinely reflect decision-making weights.
+\end{itemize}
+
+\subsection{Parameter and Stochastic Sensitivity}
+The model was subjected to $\pm 20\%$ variations in parameter thresholds, and cost estimates. Results confirm two-tier robustness:
+
+\begin{itemize} [nosep]
+\item \textbf{Ranking Stability:} Under base weights, Boughrara remained optimal across all perturbations. The 506~M TND (69\%) cost differential vs. Gabès is large enough that 20\% estimation errors ($\pm$150--250~M TND) do not reverse the safety-cost trade-off under lexicographic priorities.\item \textbf{Budget Violations:} At the pessimistic cost boundary (+20\%), Boughrara’s lifecycle cost reaches 1,488~M TND, exceeding the 750~M TND target by 98\%. This suggests the fiscal constraint is systematically violated under uncertainty, necessitating either a budget revision to 1,200--1,500~M TND or the acceptance of sub-optimal sites.\item \textbf{Risk Profiles:} Monte Carlo simulations (1,000 iterations) confirm Boughrara maintains adequate water supply even at the 10th percentile (2.30~Mm³/yr). A cost coefficient of variation ($CV \approx 6.4\%$) indicates low volatility around the 1,240~M TND median.\end{itemize}
+
+% \section{Policy Implications and Strategic Recommendations}
+
+% The analysis provides actionable, evidence-based recommendations for Tunisian industrial strategy, structured around three decision pathways:
+
+% \subsection{Primary Recommendation: Relocation to Boughrara}
+% \textbf{Boughrara} represents the optimal solution under health-prioritizing frameworks, delivering 97\% exposure reduction and pristine environmental conditions ($E_i$ = 8.7). However, this requires a \textbf{506~M TND “safety premium"} (69\% increase), exceeding the 750~M TND budget by 490~M TND. Implementation requires unprecedented financing through international loans, phased investment, or public-private partnerships.
+
+% \subsection{Alternative Recommendation: Cost-Efficient Relocation to Bouaguereb}
+% For fiscally constrained scenarios ($w_3 \geq 5w_1$), \textbf{Bouaguereb} emerges as the pragmatic alternative, requiring only 185~M TND above Gabès (25\% increase). This pathway saves 321~M TND relative to Boughrara but accepts 9× higher residual population exposure (2,600 vs. 280 persons), explicitly quantifying the implicit value-of-life assumption.
+
+% \subsection{Intermediate Options: Batten Ghazal and Sidi Boubaker}
+% \textbf{Batten Ghazal} (1,009~M TND, 580 exposure) and \textbf{Sidi Boubaker} (1,024~M TND, 1,100 exposure) offer compromise positions achieving 87--93\% exposure reductions at 38--40\% cost premiums. These represent viable middle-ground solutions for decision-makers unwilling to accept either extreme.
+
+% \subsection{Rejected Pathway: Status Quo Continuation at Gabès}
+% Gabès exhibits the highest aggregate deviation from safety and environmental targets. Because it is outperformed by every other site across most critical objectives, maintaining the status quo is both operationally dominated and ethically indefensible under constitutional health protections.
+
+% The model transparently quantifies these deviations, allowing policy-makers to move beyond binary “stay/go" debates to nuanced, data-driven priority negotiations among Boughrara (optimal safety, maximum cost), Bouaguereb (economic efficiency, moderate exposure), or intermediate compromises.
