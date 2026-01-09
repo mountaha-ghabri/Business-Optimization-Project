@@ -31,7 +31,7 @@ The Gabès industrial complex is a pillar of the Tunisian economy but faces a se
 │   └── Rapport_Audit_E_S-GCT.pdf  # Technical audit of the Gabès complex
 ├── Latex Report Files/            # Source files for the final document
 │   ├── images/                    # Figure assets (raw deviations, radar charts)
-│   ├── sections/*.tex             # Modular LaTeX chapters (Introduction, Methodology, etc.)
+│   ├── *.tex             # Modular LaTeX chapters (Introduction, Methodology, etc.)
 │   └── main.tex                   # Main LaTeX compiler file
 └── Project Report.pdf             # The final comprehensive research paper
 ```
